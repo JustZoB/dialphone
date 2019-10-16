@@ -3,6 +3,7 @@ const gulp = require('gulp'),
     gulpsync = require('gulp-sync')(gulp),
     connect = require('gulp-connect'),
     del = require('del'),
+    babel = require('gulp-babel'),
 
     eslint = require('gulp-eslint');
     uglify = require('gulp-uglify'),
@@ -16,6 +17,7 @@ const htmlMainFile = './src/index.html',
 
     htmlAllFiles = 'src/**/*.html',
     jsAllFiles = 'src/js/**/*.js',
+    jsxAllFiles = 'src/jsx/**/*.jsx',
     
     jsDstDir = './build/js/';
     jsBundleFile = 'index.js';
@@ -37,7 +39,24 @@ gulp.task('html', () => {
     .pipe(connect.reload());
 });
 
-gulp.task('js', function() {
+gulp.task('connected', () => {
+  connect.server({
+    name: 'dashboard',
+    root: 'build',
+    port: 8060,
+    livereload: true,
+  });
+});
+
+gulp.task("babel", function(){
+  return gulp.src(jsxAllFiles)
+      .pipe(babel({
+          plugins: ['transform-react-jsx']
+      }))
+      .pipe(gulp.dest("src/js/"));
+});
+
+gulp.task('js', ['babel'], function() {
   return browserify({ entries: jsMainFile })
     .transform(babelify)
     .bundle()
@@ -50,18 +69,9 @@ gulp.task('js', function() {
     .pipe(connect.reload());
 });
 
-gulp.task('connected', () => {
-  connect.server({
-    name: 'dashboard',
-    root: 'build',
-    port: 8060,
-    livereload: true,
-  });
-});
-
 gulp.task('watcher', () => {
   gulp.watch(htmlAllFiles, ['html']);
-  gulp.watch(jsAllFiles, ['js']);
+  gulp.watch(jsxAllFiles, ['js']);
 });
 
 let develop = ['clean', 'html', 'js', 'connected', 'watcher'];
