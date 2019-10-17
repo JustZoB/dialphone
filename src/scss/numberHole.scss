@@ -1,0 +1,19 @@
+$number-size: $spin-size - 10px;
+
+.phone__numberHole {
+    position: absolute;
+    width: $number-size;
+    height: $number-size;
+    left: ($number-size + 20) / 2;
+    top: ($number-size + 20) / 2;
+    background-color: $holeColor;
+    border-radius: 50%;
+    text-align: center;
+    transform-origin: 125px 125px;
+    @for $elem from 1 through 10 {
+        &:nth-child(#{$elem}) {
+            $deg: -30*$elem;
+            transform: rotate(#{$deg}deg);
+        }
+    }
+}

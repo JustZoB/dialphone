@@ -1,0 +1,12 @@
+$phone: 400px;
+$backColor: #6d6573;
+$spinColor: #48424d;
+$holeColor: white;
+
+.phone{
+    display: flex;
+    width: $phone;
+    height: $phone;
+    border-radius: 100%;
+    background-color: $backColor;
+}
