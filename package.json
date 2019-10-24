@@ -31,6 +31,8 @@
     "gulp-sync": "^0.1.4",
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.8",
+    "react-draggable-rotate": "0.0.21",
+    "react-resizable-rotatable-draggable": "^0.2.0",
     "readable-stream": "^3.4.0",
     "vinyl-source-stream": "^2.0.0",
     "webpack": "^4.41.1"

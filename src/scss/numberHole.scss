@@ -8,7 +8,6 @@ $number-size: $spin-size - 10px;
     top: ($number-size + 20) / 2;
     background-color: $holeColor;
     border-radius: 50%;
-    text-align: center;
     transform-origin: 125px 125px;
     @for $elem from 1 through 10 {
         &:nth-child(#{$elem}) {

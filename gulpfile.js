@@ -27,7 +27,11 @@ const
   jsAllFiles = 'src/js/**/*.js',
   jsMainFile = './src/js/index.js',
   
-  jsDstDir = './build/js/';
+  jsonAllFiles = 'src/json/**/*.json',
+  imgsAllFiles = 'src/img/**/*.*',
+  fontsAllFiles = 'src/fonts/**/*.*',
+
+  jsDstDir = './build/js/',
   jsBundleFile = 'index.js';
 
 gulp.task('connected', () => {
@@ -82,6 +86,21 @@ gulp.task('js', ['babel'], function() {
     .pipe(connect.reload());
 });
 
+gulp.task('fonts', () => {
+  gulp.src('./src/fonts/**/*.*')
+    .pipe(gulp.dest('./build/fonts/'));
+});
+
+gulp.task('img', () => {
+  gulp.src('./src/img/**/*.*')
+    .pipe(gulp.dest('./build/img/'));
+});
+
+gulp.task('json', () => {
+  gulp.src('./src/json/**/*.*')
+    .pipe(gulp.dest('./build/json/'));
+});
+
 gulp.task('build', ['html', 'scss', 'js'], () => {
   gulp.src('./src/fonts/**/*.*')
     .pipe(gulp.dest('./build/fonts/'));
@@ -95,8 +114,11 @@ gulp.task('build', ['html', 'scss', 'js'], () => {
 
 gulp.task('watcher', () => {
   gulp.watch(htmlAllFiles, ['html']);
-  gulp.watch(jsxAllFiles, ['js']);
   gulp.watch(scssAllFiles, ['scss']);
+  gulp.watch(jsxAllFiles, ['js']);
+  gulp.watch(jsonAllFiles, ['json']);
+  gulp.watch(imgsAllFiles, ['img']);
+  gulp.watch(fontsAllFiles, ['fonts']);
 });
 
 let develop = ['clean', 'build', 'connected', 'watcher'];

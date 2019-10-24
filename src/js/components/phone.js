@@ -7,9 +7,9 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _backCircle = _interopRequireDefault(require("./backCircle"));
-
 var _centralCircle = _interopRequireDefault(require("./centralCircle"));
+
+var _numbers = _interopRequireDefault(require("./numbers"));
 
 var _spin = _interopRequireDefault(require("./spin"));
 
@@ -53,7 +53,7 @@ function (_Component) {
     value: function render() {
       return _react["default"].createElement("div", {
         className: "phone"
-      }, _react["default"].createElement(_backCircle["default"], null), _react["default"].createElement(_spin["default"], null), _react["default"].createElement(_centralCircle["default"], null), " ");
+      }, _react["default"].createElement(_spin["default"], null), _react["default"].createElement(_centralCircle["default"], null), _react["default"].createElement(_numbers["default"], null));
     }
   }]);
 

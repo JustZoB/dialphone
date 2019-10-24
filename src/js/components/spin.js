@@ -38,18 +38,118 @@ var Spin =
 function (_Component) {
   _inherits(Spin, _Component);
 
-  function Spin() {
+  function Spin(props) {
+    var _this;
+
     _classCallCheck(this, Spin);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Spin).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Spin).call(this, props));
+    _this.state = {
+      angle: 73,
+      startRotate: 73
+    };
+    return _this;
   }
 
   _createClass(Spin, [{
+    key: "start",
+    value: function start(e) {
+      e.preventDefault();
+      var center = 200,
+          startRotate = 180 / Math.PI * Math.atan2(e.clientY - center, e.clientX - center);
+
+      if (!(startRotate > -73 && startRotate < -20)) {
+        this.setState(function () {
+          return {
+            startRotate: startRotate
+          };
+        });
+        console.log(startRotate);
+        $(".phone__spin").addClass("active");
+      }
+    }
+  }, {
+    key: "rotate",
+    value: function rotate(e) {
+      if ($(".phone__spin").hasClass("active")) {
+        e.preventDefault();
+        var center = 200,
+            rotation = 180 / Math.PI * Math.atan2(e.clientY - center, e.clientX - center) + this.state.angle - this.state.startRotate;
+
+        if (rotation < 0) {
+          rotation += 360;
+        }
+
+        return $(".phone__spin").css({
+          "transform": "rotate(".concat(rotation, "deg)")
+        });
+      }
+    }
+  }, {
+    key: "stop",
+    value: function stop() {
+      var _this2 = this;
+
+      if (this.state.startRotate > -20 && this.state.startRotate < 58) {
+        $(".phone__spin").removeClass("active").css({
+          "transform": "rotate(-60deg)",
+          "transition-duration": "0.3s"
+        });
+        setTimeout(function () {
+          $(".phone__spin").removeClass("active").css({
+            "transform": "rotate(-140deg)",
+            "transition-duration": "0.3s"
+          });
+        }, 300);
+        setTimeout(function () {
+          $(".phone__spin").removeClass("active").css({
+            "transform": "rotate(-287deg)",
+            "transition-duration": "0.3s"
+          });
+        }, 600);
+      } else {
+        $(".phone__spin").removeClass("active").css({
+          "transform": "rotate(73deg)",
+          "transition-duration": "0.8s"
+        });
+      }
+
+      setTimeout(function () {
+        $(".phone__spin").css({
+          "transition-duration": "0s"
+        });
+      }, 700);
+      this.setState(function () {
+        return {
+          startRotate: _this2.state.angle
+        };
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
+      var holes = [];
+
+      for (var i = 0; i < 10; i++) {
+        holes.push(_react["default"].createElement(_numberHole["default"], {
+          key: i
+        }));
+      }
+
       return _react["default"].createElement("div", {
-        className: "phone__spin"
-      }, _react["default"].createElement(_numberHole["default"], null), _react["default"].createElement(_numberHole["default"], null), _react["default"].createElement(_numberHole["default"], null), _react["default"].createElement(_numberHole["default"], null), _react["default"].createElement(_numberHole["default"], null), _react["default"].createElement(_numberHole["default"], null), _react["default"].createElement(_numberHole["default"], null), _react["default"].createElement(_numberHole["default"], null), _react["default"].createElement(_numberHole["default"], null), _react["default"].createElement(_numberHole["default"], null));
+        className: "phone__spin",
+        onMouseDown: function onMouseDown(e) {
+          return _this3.start(e, _this3);
+        },
+        onMouseMove: function onMouseMove(e) {
+          return _this3.rotate(e, _this3);
+        },
+        onMouseUp: function onMouseUp(e) {
+          return _this3.stop(e, _this3);
+        }
+      }, holes);
     }
   }]);
 
