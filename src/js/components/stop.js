@@ -7,16 +7,6 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _centralCircle = _interopRequireDefault(require("./centralCircle"));
-
-var _numbers = _interopRequireDefault(require("./numbers"));
-
-var _spin = _interopRequireDefault(require("./spin"));
-
-var _stop = _interopRequireDefault(require("./stop"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -39,28 +29,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var Phone =
+var Stop =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(Phone, _Component);
+  _inherits(Stop, _Component);
 
-  function Phone() {
-    _classCallCheck(this, Phone);
+  function Stop() {
+    _classCallCheck(this, Stop);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Phone).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Stop).apply(this, arguments));
   }
 
-  _createClass(Phone, [{
+  _createClass(Stop, [{
     key: "render",
     value: function render() {
       return _react["default"].createElement("div", {
-        className: "phone"
-      }, _react["default"].createElement(_stop["default"], null), _react["default"].createElement(_spin["default"], null), _react["default"].createElement(_centralCircle["default"], null), _react["default"].createElement(_numbers["default"], null));
+        className: "phone__stop"
+      });
     }
   }]);
 
-  return Phone;
+  return Stop;
 }(_react.Component);
 
-var _default = Phone;
+var _default = Stop;
 exports["default"] = _default;

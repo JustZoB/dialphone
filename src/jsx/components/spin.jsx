@@ -14,11 +14,10 @@ class Spin extends Component {
         e.preventDefault();
         let center = 200,
             startRotate = 180 / Math.PI * Math.atan2(e.clientY - center, e.clientX - center);
-        if (!(startRotate > -73 && startRotate < -20)) {
+        if (!(startRotate > -73 && startRotate < -73 + 53)) {
             this.setState(() => ({
                 startRotate: startRotate
             }))
-            console.log(startRotate)
             $(".phone__spin").addClass("active");
         }
     }
@@ -35,34 +34,50 @@ class Spin extends Component {
         }
     }
 
-    stop() {
-        if (this.state.startRotate > -20 && this.state.startRotate < 58) {
-            $(".phone__spin").removeClass("active").css({
-                "transform" : `rotate(-60deg)`,
-                "transition-duration": "0.3s"
-            });
-            setTimeout(() => {
-                $(".phone__spin").removeClass("active").css({
-                    "transform" : `rotate(-140deg)`,
-                    "transition-duration": "0.3s"
-                });
-            }, 300);
-            setTimeout(() => {
-                $(".phone__spin").removeClass("active").css({
-                    "transform" : `rotate(-287deg)`,
-                    "transition-duration": "0.3s"
-                });
-            }, 600);
-        } else {
-            $(".phone__spin").removeClass("active").css({
-                "transform" : `rotate(73deg)`,
-                "transition-duration": "0.8s"
-            });
+    stop(e) {
+        e.preventDefault();
+        function enterNumber(startRotate, endRotate, start) {
+            if (endRotate > -40 && endRotate < -10) {
+                startRotate = (startRotate < 0) ? startRotate + 360 : startRotate;
+                for (let i = 1; i < 11; i++) {
+                    let min = start - i * 30 < 0 ? start - i * 30 + 360 : start - i * 30,
+                        max = start - i * 30 + 30 < 0 ? start - i * 30 + 390 : start - i * 30 + 30;
+                    if (min > max) {
+                        if ((startRotate > min && startRotate < 360) || (startRotate > 0 && startRotate < max)) {
+                            enter(i);
+                        }
+                    } else if (startRotate > min && startRotate < max) {
+                        enter(i);
+                    }
+                }
+            }
         }
-        setTimeout(() => {
-            $(".phone__spin").css({"transition-duration": "0s"})
-        }, 700);
-
+        function enter(number) {
+            number = (number === 10) ? number - 10 : number;
+            console.log(number);
+        }
+        let center = 200,
+            start = 353 - 73,
+            startRotate = this.state.startRotate,
+            endRotate = 180 / Math.PI * Math.atan2(e.clientY - center, e.clientX - center);
+        if ((startRotate !== 73) && (startRotate !== endRotate)) {
+            enterNumber(startRotate, endRotate, start);
+            if (startRotate > -20 && startRotate < 58) {
+                $(".phone__spin").css({
+                    "transform" : `rotate(${10 - 73}deg)`,
+                    "transition-duration": "0.3s"
+                });
+                setTimeout(() => { $(".phone__spin").css({"transform" : `rotate(-${210 - 73}deg)`}) }, 300);
+                setTimeout(() => { $(".phone__spin").css({"transform" : `rotate(-${360 - 73}deg)`}) }, 600);
+            } else {
+                $(".phone__spin").css({
+                    "transform" : `rotate(${73}deg)`,
+                    "transition-duration": "0.8s"
+                });
+            }
+            setTimeout(() => { $(".phone__spin").css({"transition-duration": "0s"}).css({"transform" : `rotate(${73}deg)`}) }, 1000);
+        }
+        $(".phone__spin").removeClass("active");
         this.setState(() => ({
             startRotate: this.state.angle
         }))
@@ -76,9 +91,9 @@ class Spin extends Component {
         }
         return (
             <div className="phone__spin" 
-                onMouseDown={(e) => this.start(e, this)} 
-                onMouseMove={(e) => this.rotate(e, this)} 
-                onMouseUp={(e) => this.stop(e, this)}>
+                onMouseDown={ (e) => this.start(e, this) } 
+                onMouseMove={ (e) => this.rotate(e, this) } 
+                onMouseUp={ (e) => this.stop(e, this) }>
                 {holes}
             </div>
         )
