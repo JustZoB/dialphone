@@ -4,15 +4,13 @@ $spin-size: $ring-size - 10px;
 $spin-position: ($phone - $ring - 10px - $spin-size * 2) / 2;
 $spin: $phone - $spin-position * 2;
 
-.phone__spin {
+.spin {
     position: absolute;
-    left: $spin-position;
     top: $spin-position;
-    margin: auto;
+    left: $spin-position;
+    z-index: 1;
+    transform: rotate(0deg);
+    transition-duration: 0s;
     width: $spin;
     height: $spin;
-    border-radius: 50%;
-    background-image: linear-gradient(212deg, transparent 50%, $spinColor 50%), linear-gradient(88deg, $backColor 50%, $spinColor 50%);
-    transform: rotate(73deg);
-    cursor: grab;
 }

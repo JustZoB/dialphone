@@ -62,13 +62,17 @@
     font-size: 30px;
     user-select: none;
     cursor: grab;
+    background-color: white;
+    border-radius: 50%;
+    padding: 9px 18px;
     @for $elem from 1 through 10 {
         &:nth-child(#{$elem}) {
-            $rotate: $elem - 7;
-            $center: 195px;
-            $move: 130px;
-            top: $center + cos(pi() * $rotate / 6)*$move - 10px;
-            left: $center + sin(pi() * $rotate / 6)*$move;
+            $rotate: $elem - 7.9;
+            $ang: 6.95;
+            $center: 175px;
+            $move: 135px;
+            top: $center + cos(pi() * $rotate / $ang)*$move;
+            left: $center + sin(pi() * $rotate / $ang)*$move;
         }
     }
 }

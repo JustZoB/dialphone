@@ -8,9 +8,9 @@ const Phone = () => {
     return (
         <div className="phone">
             <Stop />
-            <Spin />
             <CentralCircle />
             <Numbers />
+            <Spin />
         </div>
     )
 }

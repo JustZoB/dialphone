@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import NumberHole from './numberHole';
 
 class Spin extends Component {
     constructor(props) {
         super(props);
         this.state = {
             active: false,
-            angle: 73,
-            startRotate: 73,
+            angle: 0,
+            startRotate: 0,
         };
     }
 
@@ -20,7 +19,7 @@ class Spin extends Component {
     start(e) {
         e.preventDefault();
         let startRotate = this.getAngle(e.clientX, e.clientY);
-        if (!(startRotate > -this.state.angle && startRotate < -this.state.angle + 53)) {
+        if (!((startRotate > -77  && startRotate < 0) || (startRotate > 0  && startRotate < 17))) {
             this.setState(() => ({
                 active: true,
                 startRotate: startRotate
@@ -36,7 +35,7 @@ class Spin extends Component {
                 rotation += 360;
             }
 
-            return $(".phone__spin").css({"transform" : `rotate(${rotation}deg)`});
+            return $(".spin").css({"transform" : `rotate(${rotation}deg)`});
         }
     }
 
@@ -52,8 +51,10 @@ class Spin extends Component {
             if (endRotate > -40 && endRotate < -10) {
                 startRotate = (startRotate < 0) ? startRotate + 360 : startRotate;
                 for (let i = 1; i < 11; i++) {
-                    let min = start - i * 30 < 0 ? start - i * 30 + 360 : start - i * 30,
-                        max = start - i * 30 + 30 < 0 ? start - i * 30 + 390 : start - i * 30 + 30;
+                    let step = 25,
+                        coordinates = start - i * step,
+                        min = coordinates < 0 ? coordinates + 360 : coordinates,
+                        max = coordinates + step < 0 ? coordinates + step + 360 : coordinates + step;
                     if (min > max) {
                         if ((startRotate > min && startRotate < 360) || (startRotate > 0 && startRotate < max)) {
                             enter(i);
@@ -65,31 +66,22 @@ class Spin extends Component {
             }
         }
         
-        function rotateToStart(spin, startRotate, angle) {
-            if (startRotate > -20 && startRotate < 58) {
-                spin.css({
-                    "transform" : `rotate(${10 - angle}deg)`,
-                    "transition-duration": "0.3s"
-                });
-                setTimeout(() => { spin.css({"transform" : `rotate(-${210 - angle}deg)`}) }, 300);
-                setTimeout(() => { spin.css({"transform" : `rotate(-${360 - angle}deg)`}) }, 600);
-            } else {
-                spin.css({
-                    "transform" : `rotate(${angle}deg)`,
-                    "transition-duration": "0.8s"
-                });
-            }
-            setTimeout(() => { spin.css({"transition-duration": "0s"}).css({"transform" : `rotate(${angle}deg)`}) }, 1000);
+        function rotateToStart(spin, angle) {
+            spin.css({
+                "transform" : `rotate(${angle}deg)`,
+                "transition-duration": "0.8s"
+            });
+            setTimeout(() => { spin.css({"transition-duration": "0s"}) }, 1000);
         }
 
-        let spin = $(".phone__spin"),
-            start = 353 - this.state.angle,
+        let spin = $(".spin"),
+            start = 360 - 83,
             startRotate = this.state.startRotate,
             endRotate = this.getAngle(e.clientX, e.clientY);
-            
+        
         if ((startRotate !== this.state.angle) && (startRotate !== endRotate)) {
             enterNumber(startRotate, endRotate, start);
-            rotateToStart(spin, startRotate, this.state.angle)
+            rotateToStart(spin, this.state.angle)
         }
         this.setState(() => ({
             active: false,
@@ -98,19 +90,13 @@ class Spin extends Component {
     }
     
     render() {
-        let holes = [];
-        for (let i = 0; i < 10; i++) {
-            holes.push(<NumberHole key={i} />);
-        }
-
         return (
-            <div className="phone__spin" 
+            <img className="spin"
+                src="./img/spin.png"
                 onMouseDown={ (e) => this.start(e, this) } 
                 onMouseMove={ (e) => this.rotate(e, this) } 
                 onMouseUp={ (e) => this.stop(e, this) }
-            >
-                {holes}
-            </div>
+            />
         )
     }
 }
