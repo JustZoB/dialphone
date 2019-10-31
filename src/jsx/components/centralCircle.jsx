@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class CentralCircle extends Component {
-    render() {
-        return (
-            <div className="phone__centralCircle"></div>
-        )
-    }
+const CentralCircle = () => {
+    return (
+        <div className="phone__centralCircle"></div>
+    )
 }
 
 export default CentralCircle;

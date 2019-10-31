@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Stop extends Component {
-    render() {
-        return (
-            <div className="phone__stop"></div>
-        )
-    }
+const Stop = () => {
+    return (
+        <div className="phone__stop"></div>
+    )
 }
 
 export default Stop;

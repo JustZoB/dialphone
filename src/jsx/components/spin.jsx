@@ -5,37 +5,49 @@ class Spin extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            active: false,
             angle: 73,
             startRotate: 73,
         };
     }
 
+    getAngle(x, y) {
+        let center = 200;
+
+        return 180 / Math.PI * Math.atan2(y - center, x - center)
+    }
+
     start(e) {
         e.preventDefault();
-        let center = 200,
-            startRotate = 180 / Math.PI * Math.atan2(e.clientY - center, e.clientX - center);
-        if (!(startRotate > -73 && startRotate < -73 + 53)) {
+        let startRotate = this.getAngle(e.clientX, e.clientY);
+        if (!(startRotate > -this.state.angle && startRotate < -this.state.angle + 53)) {
             this.setState(() => ({
+                active: true,
                 startRotate: startRotate
             }))
-            $(".phone__spin").addClass("active");
         }
     }
 
     rotate(e) {
-        if ($(".phone__spin").hasClass("active")) {
+        if (this.state.active) {
             e.preventDefault();
-            let center = 200,
-                rotation = 180 / Math.PI * Math.atan2(e.clientY - center, e.clientX - center) + this.state.angle - this.state.startRotate;
+            let rotation = this.getAngle(e.clientX, e.clientY) + this.state.angle - this.state.startRotate;
             if (rotation < 0) {
                 rotation += 360;
             }
+
             return $(".phone__spin").css({"transform" : `rotate(${rotation}deg)`});
         }
     }
 
     stop(e) {
         e.preventDefault();
+
+        function enter(number) {
+            number = (number === 10) ? number - 10 : number;
+            console.log(number);
+        }
+
         function enterNumber(startRotate, endRotate, start) {
             if (endRotate > -40 && endRotate < -10) {
                 startRotate = (startRotate < 0) ? startRotate + 360 : startRotate;
@@ -52,36 +64,37 @@ class Spin extends Component {
                 }
             }
         }
-        function enter(number) {
-            number = (number === 10) ? number - 10 : number;
-            console.log(number);
-        }
-        let center = 200,
-            start = 353 - 73,
-            startRotate = this.state.startRotate,
-            endRotate = 180 / Math.PI * Math.atan2(e.clientY - center, e.clientX - center);
-        if ((startRotate !== 73) && (startRotate !== endRotate)) {
-            enterNumber(startRotate, endRotate, start);
+        
+        function rotateToStart(spin, startRotate, angle) {
             if (startRotate > -20 && startRotate < 58) {
-                $(".phone__spin").css({
-                    "transform" : `rotate(${10 - 73}deg)`,
+                spin.css({
+                    "transform" : `rotate(${10 - angle}deg)`,
                     "transition-duration": "0.3s"
                 });
-                setTimeout(() => { $(".phone__spin").css({"transform" : `rotate(-${210 - 73}deg)`}) }, 300);
-                setTimeout(() => { $(".phone__spin").css({"transform" : `rotate(-${360 - 73}deg)`}) }, 600);
+                setTimeout(() => { spin.css({"transform" : `rotate(-${210 - angle}deg)`}) }, 300);
+                setTimeout(() => { spin.css({"transform" : `rotate(-${360 - angle}deg)`}) }, 600);
             } else {
-                $(".phone__spin").css({
-                    "transform" : `rotate(${73}deg)`,
+                spin.css({
+                    "transform" : `rotate(${angle}deg)`,
                     "transition-duration": "0.8s"
                 });
             }
-            setTimeout(() => { $(".phone__spin").css({"transition-duration": "0s"}).css({"transform" : `rotate(${73}deg)`}) }, 1000);
+            setTimeout(() => { spin.css({"transition-duration": "0s"}).css({"transform" : `rotate(${angle}deg)`}) }, 1000);
         }
-        $(".phone__spin").removeClass("active");
+
+        let spin = $(".phone__spin"),
+            start = 353 - this.state.angle,
+            startRotate = this.state.startRotate,
+            endRotate = this.getAngle(e.clientX, e.clientY);
+            
+        if ((startRotate !== this.state.angle) && (startRotate !== endRotate)) {
+            enterNumber(startRotate, endRotate, start);
+            rotateToStart(spin, startRotate, this.state.angle)
+        }
         this.setState(() => ({
+            active: false,
             startRotate: this.state.angle
         }))
-        
     }
     
     render() {
@@ -89,11 +102,13 @@ class Spin extends Component {
         for (let i = 0; i < 10; i++) {
             holes.push(<NumberHole key={i} />);
         }
+
         return (
             <div className="phone__spin" 
                 onMouseDown={ (e) => this.start(e, this) } 
                 onMouseMove={ (e) => this.rotate(e, this) } 
-                onMouseUp={ (e) => this.stop(e, this) }>
+                onMouseUp={ (e) => this.stop(e, this) }
+            >
                 {holes}
             </div>
         )
